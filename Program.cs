@@ -18,41 +18,34 @@ namespace WebMonitor
             // TODO - on failure of the check, execute its settings for how to notify
         }
 
+        // http://msdn.microsoft.com/en-us/library/system.net.webrequest.aspx
         public static bool IsHealthy(MonitorSettings config)
         {
             // Create a request for the URL. 		
-            WebRequest request = WebRequest.Create(config.Uri);
+            var request = WebRequest.Create(config.Uri);
             
             // If required by the server, set the credentials.
             request.Credentials = CredentialCache.DefaultCredentials;
             
             // Get the response.
-            HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-            
-            // Display the status.
-            //Console.WriteLine(response.StatusDescription);
+            var response = (HttpWebResponse)request.GetResponse();
             
             // Get the stream containing content returned by the server.
-            Stream dataStream = response.GetResponseStream();
+            var dataStream = response.GetResponseStream();
             
             // Open the stream using a StreamReader for easy access.
-            StreamReader reader = new StreamReader(dataStream);
+            var reader = new StreamReader(dataStream);
             
             // Read the content.
-            string responseFromServer = reader.ReadToEnd();
-            
-            // Display the content.
-            //  TODO - should we display a snippet of the response
-            //Console.WriteLine(responseFromServer);
+            var responseFromServer = reader.ReadToEnd();
             
             // Cleanup the streams and the response.
             reader.Close();
             dataStream.Close();
             response.Close();
 
-            var isHealthy = config.HttpStatusCode == response.StatusCode;
-
-            return isHealthy;
+            var statusCode = (int)response.StatusCode;
+            return statusCode == config.StatusCode;
         }
     }
 }

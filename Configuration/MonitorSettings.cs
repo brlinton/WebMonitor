@@ -27,23 +27,17 @@ namespace WebMonitor.Configuration
             set { this["uri"] = value; }
         }
 
-        [ConfigurationProperty("httpStatusCode", IsRequired = false)]
-        public HttpStatusCode HttpStatusCode
+        // http://msdn.microsoft.com/en-us/library/system.net.httpstatuscode.aspx
+        [ConfigurationProperty("statusCode", DefaultValue = 200, IsRequired = false)]
+        public int StatusCode
         {
             get 
             {
-                var code = (HttpStatusCode)this["httpStatusCode"];
-                
-                if (code == 0)
-                {
-                    code = HttpStatusCode.OK;
-                }
-
-                return code; 
+                return (int)this["statusCode"];
             }
             set 
-            { 
-                this["httpStatusCode"] = value; 
+            {
+                this["statusCode"] = value; 
             }
         }
     }
