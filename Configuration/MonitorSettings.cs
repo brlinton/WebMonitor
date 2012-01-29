@@ -40,5 +40,12 @@ namespace WebMonitor.Configuration
                 this["statusCode"] = value; 
             }
         }
+
+        [ConfigurationProperty("contains", IsRequired = false)]
+        public string Contains
+        {
+            get { return (string)this["contains"]; }
+            set { this["contains"] = value; }
+        }
     }
 }

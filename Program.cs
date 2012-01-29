@@ -9,13 +9,10 @@ namespace WebMonitor
     {
         static void Main(string[] args)
         {
+            // TODO - make this a collection to iterate through (allowing nested elements in the config)
             var config = MonitorSettings.Settings;
             var isHealthy = IsHealthy(config);
-
             Console.WriteLine("Is {0} healthy? {1}", config.Uri, isHealthy);
-            // TODO - read configuration, building up things to do
-            // TODO - spin through the things to do
-            // TODO - on failure of the check, execute its settings for how to notify
         }
 
         // http://msdn.microsoft.com/en-us/library/system.net.webrequest.aspx
@@ -29,7 +26,8 @@ namespace WebMonitor
             
             // Get the response.
             var response = (HttpWebResponse)request.GetResponse();
-            
+            var statusCode = (int)response.StatusCode;
+
             // Get the stream containing content returned by the server.
             var dataStream = response.GetResponseStream();
             
@@ -44,8 +42,16 @@ namespace WebMonitor
             dataStream.Close();
             response.Close();
 
-            var statusCode = (int)response.StatusCode;
-            return statusCode == config.StatusCode;
+            var responseContainsCorrectValue = true;
+            var statusesMatch = statusCode == config.StatusCode;
+
+            // If "Contains" was set in the config, verify that it is in the response
+            if (!string.IsNullOrWhiteSpace(config.Contains))
+            {
+                responseContainsCorrectValue = responseFromServer.Contains(config.Contains);
+            }
+
+            return statusesMatch && responseContainsCorrectValue;
         }
     }
 }
