@@ -47,5 +47,7 @@ namespace WebMonitor.Configuration
             get { return (string)this["contains"]; }
             set { this["contains"] = value; }
         }
+
+        // TODO - add some notification settings (who to notify?  only on failure?)
     }
 }

@@ -4,7 +4,4 @@ More help coming!
 
 Upcoming features:
 - Configure a set of URLs to monitor
-- Configure what constitutes "health" for each URL
-	- Status code
-	- Contents of response
-- Configure method of notification for each failure
+- Configure method of notification
