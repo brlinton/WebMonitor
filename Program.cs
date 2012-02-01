@@ -9,14 +9,16 @@ namespace WebMonitor
     {
         static void Main(string[] args)
         {
-            // TODO - make this a collection to iterate through (allowing nested elements in the config)
             var config = MonitorSettings.Settings;
-            var isHealthy = IsHealthy(config);
-            ProcessNotification(config, isHealthy);
+            foreach (MonitorConfig monitor in config.Monitors)
+            {
+                var isHealthy = IsHealthy(monitor);
+                ProcessNotification(monitor, isHealthy);
+            }
         }
 
         // http://msdn.microsoft.com/en-us/library/system.net.webrequest.aspx
-        protected static bool IsHealthy(MonitorSettings config)
+        protected static bool IsHealthy(MonitorConfig config)
         {
             // Create a request for the URL. 		
             var request = WebRequest.Create(config.Uri);
@@ -54,7 +56,7 @@ namespace WebMonitor
             return statusesMatch && responseContainsCorrectValue;
         }
 
-        protected static void ProcessNotification(MonitorSettings config, bool isHealthy)
+        protected static void ProcessNotification(MonitorConfig config, bool isHealthy)
         {
             Console.WriteLine("Is {0} healthy? {1}", config.Uri, isHealthy);
 

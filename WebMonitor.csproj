@@ -45,6 +45,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Configuration\MonitorCollection.cs" />
+    <Compile Include="Configuration\MonitorConfig.cs" />
     <Compile Include="Configuration\MonitorSettings.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

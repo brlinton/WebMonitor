@@ -20,34 +20,17 @@ namespace WebMonitor.Configuration
             }
         }
 
-        [ConfigurationProperty("uri", IsRequired = true)]
-        public string Uri
+        [ConfigurationProperty("Monitors", IsDefaultCollection = false)]
+        [ConfigurationCollection(typeof(MonitorCollection),
+            AddItemName = "Monitor",
+            ClearItemsName = "clear",
+            RemoveItemName = "remove")]
+        public MonitorCollection Monitors
         {
-            get { return (string)this["uri"]; }
-            set { this["uri"] = value; }
-        }
-
-        // http://msdn.microsoft.com/en-us/library/system.net.httpstatuscode.aspx
-        [ConfigurationProperty("statusCode", DefaultValue = 200, IsRequired = false)]
-        public int StatusCode
-        {
-            get 
+            get
             {
-                return (int)this["statusCode"];
-            }
-            set 
-            {
-                this["statusCode"] = value; 
+                return (MonitorCollection)base["Monitors"];
             }
         }
-
-        [ConfigurationProperty("contains", IsRequired = false)]
-        public string Contains
-        {
-            get { return (string)this["contains"]; }
-            set { this["contains"] = value; }
-        }
-
-        // TODO - add some notification settings (who to notify?  only on failure?)
     }
 }
