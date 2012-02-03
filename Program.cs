@@ -15,12 +15,22 @@ namespace WebMonitor
             SetUpLogging();
 
             var config = MonitorSettings.Settings;
+            var errorCount = 0;
 
             foreach (MonitorConfig monitor in config.Monitors)
             {
                 var response = GetWebsiteHealth(monitor);
+                
+                if (!response.IsHealthy)
+                    errorCount++;
+                
                 ProcessResponse(response);
             }
+
+            var message = string.Format("Found {0} errors out of {1} monitor checks", errorCount, config.Monitors.Count);
+
+            if (errorCount > 0)
+                Logger.WarnFormat(message);
         }
 
         protected static void SetUpLogging()
