@@ -42,8 +42,8 @@ namespace WebMonitor
         // http://msdn.microsoft.com/en-us/library/system.net.webrequest.aspx
         protected static HealthResponse GetWebsiteHealth(MonitorConfig config)
         {
-            var responseFromServer = string.Empty;
-            var isHealthy = true;
+            string responseFromServer;
+            bool isHealthy;
             var statusCode = 0;
 
             try
@@ -111,8 +111,7 @@ namespace WebMonitor
 
             if (!response.IsHealthy)
             {
-                Logger.ErrorFormat("WEBMONITOR HEALTH ALERT for {0}", response.Uri);
-                Logger.Error(response.Response);
+                Logger.ErrorFormat("WEBMONITOR HEALTH ALERT for {0}: {1}", response.Uri, response.Response);
             }
         }
     }
