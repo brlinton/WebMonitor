@@ -52,7 +52,7 @@ namespace WebMonitor
 
                 // Create a request for the URL. 		
                 var request = WebRequest.Create(config.Uri);
-                request.Timeout = 10000;
+                request.Timeout = config.Timeout;
 
                 // If required by the server, set the credentials.
                 request.Credentials = CredentialCache.DefaultCredentials;

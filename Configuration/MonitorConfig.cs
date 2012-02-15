@@ -39,5 +39,12 @@ namespace WebMonitor.Configuration
             get { return (string)this["contains"]; }
             set { this["contains"] = value; }
         }
+
+        [ConfigurationProperty("timeout", IsRequired = false, IsKey = false, DefaultValue = 10000)]
+        public int Timeout
+        {
+            get { return (int)this["timeout"]; }
+            set { this["timeout"] = value; }
+        }
     }
 }
